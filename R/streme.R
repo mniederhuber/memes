@@ -291,6 +291,7 @@ streme_to_pfm <- function(streme_xml_path){
                                  altname = .x$altname,
                                  bkg = background_freq,
                                  pval = .x$pval,
+                                 #eval = .x$eval,
                                  nsites = .x$nsites)
 
   })
@@ -381,7 +382,8 @@ streme_motif_stats <- function(streme_xml_path){
   dbl_cols <- c("score_threshold", "train_pos_count", "train_neg_count", 
                 "train_log_pvalue", "train_pvalue", "train_dtc", 
                 "train_bernoulli", "test_pos_count", "test_neg_count", 
-                "test_log_pvalue", "test_pvalue",  "test_dtc", "test_bernoulli", 
+                #"test_log_pvalue", "test_pvalue", "test_dtc", "test_bernoulli", 
+                "test_log_pvalue", "test_pvalue", "test_log_evalue", "test_evalue", "test_dtc", "test_bernoulli", 
                 "elapsed_time")
   
   streme_xml <- xml2::read_xml(streme_xml_path)
@@ -409,5 +411,9 @@ streme_motif_stats <- function(streme_xml_path){
     # pvalue -> pval for universalmotif compatability
     dplyr::rename_with(~{gsub("pvalue", "pval", .)},
                      dplyr::contains("pvalue"), 
+                     ) %>%
+  #  # evalue -> eval for universalmotif compatability
+    dplyr::rename_with(~{gsub("evalue", "eval", .)},
+                     dplyr::contains("evalue"), 
                      ) 
 }
